@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TvServiceSample</string>
+    <string name="add_data">加载数据</string>
+</resources>

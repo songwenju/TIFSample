@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TIFSample</string>
+    <string name="play_first">播放第一个</string>
+    <string name="play_next">播放第二个</string>
+</resources>
