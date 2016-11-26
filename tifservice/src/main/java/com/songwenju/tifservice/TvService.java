@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.tv.TvContract;
+import android.media.tv.TvInputManager;
 import android.media.tv.TvInputService;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -74,14 +75,15 @@ public class TvService extends TvInputService {
             LogUtil.i(this, "SimpleSessionImpl.onTune.");
             Long channelId = ContentUris.parseId(channelUri);
             LogUtil.d(this, "channelId:" + channelId);
+            mSimpleSession.notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_TUNING);
             return setChannelIdAndPlay(channelId);
         }
 
         /**
          * 设置ChannelId并播放
          *
-         * @param channelId
-         * @return
+         * @param channelId channelId
+         * @return 播放状态
          */
         private boolean setChannelIdAndPlay(Long channelId) {
             VideosBean dbChannel = getDbChannel(mContext, channelId);
@@ -120,7 +122,7 @@ public class TvService extends TvInputService {
          * @param channelId channelID
          * @return 数据集合
          */
-        public VideosBean getDbChannel(Context context, long channelId) {
+        VideosBean getDbChannel(Context context, long channelId) {
             LogUtil.i(TAG, "DbUtil.getDbChannel channelId:" + channelId);
             VideosBean videosBean = new VideosBean();
             Uri queryUri = ContentUris.withAppendedId(TvContract.Channels.CONTENT_URI, channelId);
@@ -167,6 +169,7 @@ public class TvService extends TvInputService {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 LogUtil.i(this, "SimpleSessionImpl.onInfo.what=" + what + " extra=" + extra);
+
                 return false;
             }
         }
