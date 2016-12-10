@@ -1,5 +1,7 @@
 ##TIFSample
 
+![image](https://github.com/songwenju/TIFSample/blob/master/raw/show.gif)
+
 这是一个关于TIF（TV input Framework）的使用例子。TIF是Google向电视制造商提供了  
 一套标准的API，用于创建Input模块来控制Android电视。不同的Input模块包括HDMI，ATV，  
 DTV，网络等。这个例子是使用网络对应的Input模块，也就是通常所说的IPTv。  
