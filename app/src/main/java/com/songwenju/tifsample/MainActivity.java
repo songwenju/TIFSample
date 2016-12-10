@@ -114,12 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_play_first:
                 mTvView.reset();
-                mTvView.tune(mInputId, Uri.parse("content://main/250")); //根据数据库的id去查找
+                mTvView.tune(mInputId, Uri.parse("content://main/12")); //根据数据库的id去查找
                 break;
             case R.id.btn_play_next:
 
                 mTvView.reset();
-                mTvView.tune(mInputId, Uri.parse("content://main/252"));
+                mTvView.tune(mInputId, Uri.parse("content://main/14"));
                 break;
         }
     }
