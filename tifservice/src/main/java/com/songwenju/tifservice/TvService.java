@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static android.media.MediaPlayer.MEDIA_INFO_BUFFERING_END;
+import static android.media.MediaPlayer.MEDIA_INFO_BUFFERING_START;
+import static android.media.MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START;
 
 /**
  * songwenju on 16-10-26 : 17 : 14.
@@ -95,7 +98,7 @@ public class TvService extends TvInputService {
                 if (TextUtils.isEmpty(playUrl)) {
                     if (channelId == 1) {
                         playUrl = "http://cord.tvxio.com/v1_0/I2/frk/api/live/m3u8/9/5f754b84-ec33-4d62-bb81-3e4de21c8460/medium/";
-                    }else {
+                    } else {
                         playUrl = " http://cord.tvxio.com/v1_0/I2/frk/api/live/m3u8/9/577da15a-9007-4fdd-a9cf-6e19d7a04528/medium/";
                     }
                 }
@@ -154,6 +157,7 @@ public class TvService extends TvInputService {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 LogUtil.i(this, "SimpleSessionImpl.onError.what=" + what + " extra=" + extra);
+                notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN);
                 return false;
             }
         }
@@ -169,7 +173,18 @@ public class TvService extends TvInputService {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 LogUtil.i(this, "SimpleSessionImpl.onInfo.what=" + what + " extra=" + extra);
-
+                switch (what) {
+                    case MEDIA_INFO_BUFFERING_START:
+                        notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_BUFFERING);
+                        break;
+                    case MEDIA_INFO_BUFFERING_END:
+                        notifyVideoAvailable();
+                        break;
+                    case MEDIA_INFO_VIDEO_RENDERING_START:
+                        //开始播放
+                        notifyVideoAvailable();
+                        break;
+                }
                 return false;
             }
         }

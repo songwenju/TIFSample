@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnPlayNext.setOnClickListener(this);
 
 
-        mInputId = "com.songwenju.tifservice.TvService/com.songwenju.tifservice.TvService";
+//        mInputId = "com.songwenju.tifservice.TvService/com.songwenju.tifservice.TvService";
+        mInputId = "lenovo.com.ismartvlive/.Ismartvliveservice";
         TvInputManager tvInputManager = (TvInputManager) getSystemService(Context.TV_INPUT_SERVICE);
 
         List<TvInputInfo> list = tvInputManager.getTvInputList();
@@ -80,13 +81,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onVideoAvailable(String inputId) {
                 super.onVideoAvailable(inputId);
-                LogUtil.i(this, "MainActivity.onVideoAvailable.inputId:" + inputId);
+                LogUtil.i(this, "MainActivity.onVideoAvailable" );
+                //TODO 播放开始，把对话框隐藏
             }
 
             @Override
             public void onVideoUnavailable(String inputId, int reason) {
                 super.onVideoUnavailable(inputId, reason);
-                LogUtil.i(this, "MainActivity.onVideoUnavailable.");
+                LogUtil.i(this, "MainActivity.onVideoUnavailable."+reason);
+                switch (reason){
+                    case TvInputManager.VIDEO_UNAVAILABLE_REASON_TUNING:
+                        //turn
+                        break;
+                    case TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN:
+                        //unknow reason
+                        break;
+                    case TvInputManager.VIDEO_UNAVAILABLE_REASON_BUFFERING:
+                        //buffering
+                        break;
+                }
             }
 
             @Override
@@ -114,12 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_play_first:
                 mTvView.reset();
-                mTvView.tune(mInputId, Uri.parse("content://main/12")); //根据数据库的id去查找
+                mTvView.tune(mInputId, Uri.parse("content://main/4")); //根据数据库的id去查找
                 break;
             case R.id.btn_play_next:
 
                 mTvView.reset();
-                mTvView.tune(mInputId, Uri.parse("content://main/14"));
+                mTvView.tune(mInputId, Uri.parse("content://main/5"));
                 break;
         }
     }
